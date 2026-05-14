@@ -1,0 +1,59 @@
+{
+  "mcpServers": {
+    "context7": {
+      "command": "npx",
+      "args": ["-y", "@upstash/context7-mcp@2.2.5"],
+      "env": {
+        "CONTEXT7_API_KEY": "${CONTEXT7_API_KEY}"
+      }
+    },
+    "supabase": {
+      "command": "npx",
+      "args": ["-y", "@supabase/mcp-server-supabase@0.8.1"],
+      "env": {
+        "SUPABASE_ACCESS_TOKEN": "${SUPABASE_ACCESS_TOKEN}"
+      }
+    },
+    "higgsfield": {
+      "command": "npx",
+      "args": ["-y", "higgsfield-mcp@0.2.0"],
+      "env": {
+        "HIGGSFIELD_API_KEY": "${HIGGSFIELD_API_KEY}"
+      }
+    },
+    "notion": {
+      "command": "npx",
+      "args": ["-y", "@notionhq/notion-mcp-server@2.2.1"],
+      "env": {
+        "NOTION_TOKEN": "${NOTION_TOKEN}"
+      }
+    },
+    "atypica": {
+      "type": "http",
+      "url": "https://atypica.ai/mcp",
+      "env": {
+        "ATYPICA_USER_TOKEN": "${ATYPICA_USER_TOKEN}"
+      }
+    },
+    "gamma": {
+      "type": "http",
+      "url": "https://gamma.app/api/mcp"
+    },
+    "dsgvo-pro": {
+      "type": "http",
+      "url": "https://dsgvo.pro/mcp"
+    }
+  },
+  "_unverified": {
+    "vercel": {
+      "reason": "@vercel/mcp-server does not exist on npm (404). No official Vercel-owned MCP package found. Community alternatives (vercel-mcp, vercel-platform-mcp-server) are unofficial and unstable. Check https://vercel.com/docs for official MCP support if/when released.",
+      "draft": {
+        "command": "npx",
+        "args": ["-y", "@vercel/mcp-server@0.1.0"],
+        "env": {
+          "VERCEL_TOKEN": "${VERCEL_TOKEN}"
+        }
+      }
+    }
+  }
+}
