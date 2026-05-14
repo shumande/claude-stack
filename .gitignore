@@ -29,6 +29,6 @@ Thumbs.db
 .idea/
 *.swp
 
-# Personal / strategy (Miller §J)
+# Personal / strategy files (never publish)
 .business/
 .private/
