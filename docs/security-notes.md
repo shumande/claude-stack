@@ -27,7 +27,7 @@ These are reminders Claude reads at the start of each session:
 6. Encrypt PII, mask in logs.
 7. Run `/security-review` after each major change.
 
-Source: Miller / Smyslokod method final formulation (PDF-CHK, 7 rules; the 7th is new vs the earlier 6).
+Source: my production checklist — distilled from real incidents across client work, refined into these seven rules I want Claude to see at the start of every session.
 
 ## Why both?
 
@@ -38,4 +38,4 @@ In combination they cover: "don't run this" + "remember this principle while run
 
 ## Recovery / dangerous triad
 
-This repo assumes you have `bypass permissions` + `Allow Mode` + `auto-commit` enabled — that combination ("опасная тройка") makes Claude fast but means `git` is your safety belt. The repo is on GitHub from day one for exactly this reason: any wrong turn → `git reset` is fine.
+This repo assumes you have `bypass permissions` + `Allow Mode` + `auto-commit` enabled — that combination makes Claude fast but means `git` is your safety belt. The repo is on GitHub from day one for exactly this reason: any wrong turn → `git reset` is fine.

@@ -2,9 +2,9 @@
 
 This is a reference Claude Code stack: version-pinned MCP servers, smoke-tested in CI, with anti-picks and known failure modes documented.
 
-## Safety Rules (7 Guards, derived from Миллер / Smyslokod Method)
+## Safety Rules — my production checklist (7 guards)
 
-When working in this codebase, Claude Code MUST follow these guardrails:
+When working in this codebase, Claude Code MUST follow these guardrails. They are my own — distilled from incidents across real client work:
 
 1. **Commit only your changes.** Never commit unrelated files.
 2. **Never deploy without an explicit "deploy" command.** No auto-deploy.

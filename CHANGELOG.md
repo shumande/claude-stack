@@ -12,8 +12,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Idempotent install script (`scripts/install.sh`) with OS detection.
 - CI workflow: `smoke-test` runs on every push + weekly Monday cron.
 - Documentation: security notes, anti-picks, failure modes, GDPR data flows.
-- Miller `permissions.deny` baseline in `settings.example.json`.
-- Miller 7 safety rules in `CLAUDE.md`.
+- My `permissions.deny` baseline in `settings.example.json` (5 hard-stop rules).
+- My 7 safety guards in `CLAUDE.md` (commit hygiene, deploy discipline, secret handling, etc.).
 
 ## [0.1.0] — 2026-MM-DD
 

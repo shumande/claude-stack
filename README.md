@@ -25,8 +25,8 @@ If smoke-test is green, you have a working baseline. Start Claude Code in this d
 ## What's in here
 
 - `.mcp.json` — 7 verified MCP servers, version-pinned. Vercel MCP pending official package.
-- `settings.example.json` — Claude Code settings with `permissions.deny` baseline (Miller §A — 5 enforced safety rules).
-- `CLAUDE.md` — 7 advisory safety rules (Miller §B).
+- `settings.example.json` — Claude Code settings with my `permissions.deny` baseline. Five hard-stop rules: no deletion outside project, no `.env` exfiltration, no `curl | sh` style outbound execution, no system-directory access, no credential-file reads.
+- `CLAUDE.md` — my seven advisory rules at session start: commit hygiene, deploy discipline, secret handling, rate-limiting, PII masking, `/security-review` after each change.
 - `scripts/smoke-test.sh` — Verifies each MCP server actually responds to `initialize`. Catches "fake-green" (process running but unresponsive).
 - `scripts/install.sh` — Idempotent OS-aware setup. Detects macOS / Linux / WSL.
 - `docs/anti-picks.md` — Tools I tried and dropped, with reasons.
