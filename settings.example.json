@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "permissions": {
+    "deny": [
+      "Bash(rm -rf /:*)",
+      "Bash(rm -rf ~:*)",
+      "Bash(rm -rf $HOME:*)",
+      "Bash(rm -rf /etc:*)",
+      "Bash(rm -rf /usr:*)",
+      "Bash(rm -rf /var:*)",
+
+      "Bash(cat .env)",
+      "Bash(cat .env.*)",
+      "Bash(cat *.env)",
+      "Bash(* .env *|*)",
+      "Bash(curl -d @.env*)",
+      "Bash(curl -F *.env*)",
+      "Bash(export *|curl*)",
+      "Bash(wget --post-data *.env*)",
+
+      "Bash(curl * | sh)",
+      "Bash(curl * | bash)",
+      "Bash(wget * | sh)",
+      "Bash(wget * | bash)",
+
+      "Read(/etc/**)",
+      "Read(/usr/local/**)",
+      "Read(/var/log/**)",
+      "Read(.env)",
+      "Read(.env.*)",
+      "Read(**/credentials.json)",
+      "Read(**/.aws/credentials)",
+
+      "Write(/etc/**)",
+      "Write(/usr/local/**)",
+      "Write(/var/**)"
+    ]
+  }
+}
