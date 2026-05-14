@@ -10,9 +10,9 @@ Tools I tried and dropped. The reason is more useful than the tool name.
 
 ### Figma MCP
 
-**Why dropped:** platform mismatch
+**Why dropped:** supersedence
 
-I don't actually do design-to-code in my workflow — visuals are generated through Higgsfield or coded directly from a brief. Keeping Figma MCP in the stack was cargo-cult ownership of a tool I never opened.
+Claude Design (Anthropic) replaces the design-to-code role in my workflow. Since adopting it I haven't reached for Figma MCP — the round-trip (brief → design → handoff → code) collapses into a single conversation. Figma MCP stays in the public ecosystem; it just isn't the right entry point for how I work.
 
 ---
 
