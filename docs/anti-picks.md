@@ -16,12 +16,29 @@ Claude Design (Anthropic) replaces the design-to-code role in my workflow. Since
 
 ---
 
-### <tool 2>
+### Notion MCP
 
-**Why dropped:** <category>
+**Why dropped:** supersedence
 
-<reason>
+Obsidian is my Second Brain — local-first markdown that Claude Code reads natively without an MCP layer. The friction of cloud sync, page-graph model, and Notion's API limits never paid back. Markdown files in a vault beat database-as-notes for how I think.
 
 ---
 
-<!-- Add 3-8 more entries before launch. Without ≥5, this section loses its unique signal. -->
+### Slack MCP
+
+**Why dropped:** platform mismatch
+
+Solo operator, no team chat to integrate. Slack MCP solves a problem I don't have. Adding it would be cargo-cult of a stack shape that fits agencies, not single-operator workflows.
+
+---
+
+### Sentry
+
+**Why dropped:** maintenance abandoned
+
+Tried as error monitoring for production apps. The noise-to-signal stayed bad at solo-operator scale: most alerts I cared about were already visible in Vercel logs + Trigger.dev run history. Sentry became a dead actor — UI tab open, never checked, paying for it monthly. Pulled the plug.
+
+---
+
+<!-- Add 1+ more entries from your own experience as they accumulate. -->
+

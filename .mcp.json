@@ -21,13 +21,6 @@
         "HIGGSFIELD_API_KEY": "${HIGGSFIELD_API_KEY}"
       }
     },
-    "notion": {
-      "command": "npx",
-      "args": ["-y", "@notionhq/notion-mcp-server@2.2.1"],
-      "env": {
-        "NOTION_TOKEN": "${NOTION_TOKEN}"
-      }
-    },
     "atypica": {
       "type": "http",
       "url": "https://atypica.ai/mcp",
