@@ -24,7 +24,12 @@ It exposes these tools:
 | `check-compliance` | **API key required** | website-scan |
 | `get-scan-status` / `get-scan-result` | public per scanId | website-scan |
 
-Covered laws: DSGVO (GDPR), BDSG, TDDDG, DDG, KI-VO (EU AI Act), BFSG.
+Covered laws: the full dsgvo.pro catalog of German/EU digital-law statutes —
+the digital-law core (DSGVO/GDPR, BDSG, TDDDG, DDG, KI-VO/EU AI Act, BFSG) plus
+sector and consumer law (UWG, BGB, PAngV, UrhG, GewO, MaBV, GEG, HWG, and more).
+`search-law` / `get-article` accept any of them; call `list-laws` for the live
+list with article counts. This plugin's five skills focus on the digital-law
+core, but the connector itself can ground a citation in any catalog statute.
 
 ## API key — what works without one, what needs one
 
