@@ -34,6 +34,23 @@ If smoke-test is green, you have a working baseline. Start Claude Code in this d
 - `docs/gdpr-data-flows.md` — Where data lives for each tool. EU compliance helper.
 - `docs/security-notes.md` — How the two-layer defense works.
 
+## Plugins
+
+This repo is also a plugin marketplace. The plugins are the European edition of
+Anthropic's [knowledge-work-plugins](https://github.com/anthropics/knowledge-work-plugins)
+idea — German-market workflows, not translations.
+
+- **`dsgvo`** — German data-protection compliance for websites: scan a site,
+  review your Datenschutzerklärung, check cookie consent against DSGVO / BDSG /
+  TDDDG. Every legal citation is pulled live from the
+  [dsgvo.pro](https://dsgvo.pro) MCP, so paragraphs are real, not invented.
+  See [`plugins/dsgvo/`](plugins/dsgvo/).
+
+```bash
+claude plugin marketplace add shumande/claude-stack
+claude plugin install dsgvo@claude-stack
+```
+
 ## What this is not
 
 A tutorial. Read `docs/anti-picks.md` if you want the philosophy. Read [shuman.de/stack](https://shuman.de/stack) if you want the why.

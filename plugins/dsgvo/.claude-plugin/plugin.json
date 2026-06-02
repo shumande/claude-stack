@@ -1,0 +1,10 @@
+{
+  "name": "dsgvo",
+  "version": "0.1.0",
+  "description": "German data-protection compliance for websites: scan a site, review your Datenschutzerklärung, and check cookie consent against DSGVO, BDSG and TDDDG. Legal citations are pulled live from the dsgvo.pro MCP, so paragraphs are real, not invented.",
+  "author": {
+    "name": "shumande",
+    "url": "https://shuman.de"
+  },
+  "homepage": "https://shuman.de/stack"
+}

@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "dsgvo-pro": {
+      "type": "http",
+      "url": "https://dsgvo.pro/api/mcp"
+    }
+  }
+}

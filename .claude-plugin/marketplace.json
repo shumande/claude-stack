@@ -1,0 +1,19 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "claude-stack",
+  "description": "EU-adapted Claude Code / Cowork plugins. German-market workflows grounded in real law via the dsgvo.pro MCP — not a translation of US plugins.",
+  "owner": {
+    "name": "shumande",
+    "url": "https://shuman.de"
+  },
+  "plugins": [
+    {
+      "name": "dsgvo",
+      "displayName": "DSGVO Compliance",
+      "source": "./plugins/dsgvo",
+      "category": "legal",
+      "description": "German data-protection compliance for websites: scan a site, review your Datenschutzerklärung, and check your cookie consent against DSGVO, BDSG and TDDDG. Every legal citation is pulled live from the dsgvo.pro MCP — no hallucinated paragraphs.",
+      "homepage": "https://shuman.de/stack"
+    }
+  ]
+}
