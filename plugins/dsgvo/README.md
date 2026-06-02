@@ -1,8 +1,9 @@
 # DSGVO Compliance — Claude plugin
 
-German data-protection compliance for websites, as a Claude Code / Cowork
-plugin. Scan a site, review your **Datenschutzerklärung**, and check your
-**cookie consent** against DSGVO, BDSG and TDDDG.
+German digital-law compliance for websites, as a Claude Code / Cowork plugin.
+Scan a site, review your **Datenschutzerklärung**, check your **cookie consent**
+and **Impressum**, and classify **AI systems** under the AI Act — grounded in
+DSGVO, BDSG, TDDDG, DDG and KI-VO.
 
 ## Why this exists
 
@@ -21,6 +22,8 @@ That grounding is the whole point.
 | `website-scan` | Runs a live scan of a URL, prioritizes findings by Abmahnung risk, cites each to the exact paragraph | **yes** (free tier 3/mo) |
 | `datenschutz-review` | Reviews or drafts a Datenschutzerklärung against Art. 13/14 DSGVO | no |
 | `cookie-consent` | Checks the cookie banner/flow against § 25 TDDDG and consent dark patterns | no |
+| `impressum` | Checks the Impressum against the § 5 DDG information duties + placement | no |
+| `ki-vo-classify` | Classifies an AI system under the AI Act (KI-VO) — prohibited / high-risk / transparency / minimal — and lists the duties | no |
 
 Output is written in German (it's for German owners and their lawyers); the
 skill instructions are in English so the repo stays readable.
@@ -40,7 +43,7 @@ Then just ask, e.g.:
 
 ## API key
 
-Two of the three skills work immediately with no key, because the dsgvo.pro
+Four of the five skills work immediately with no key, because the dsgvo.pro
 tools `search-law` and `get-article` are free. Only `website-scan` needs a key,
 because it runs a real browser scan. Get one at
 https://dsgvo.pro/api-keys and follow [CONNECTORS.md](./CONNECTORS.md). Your key

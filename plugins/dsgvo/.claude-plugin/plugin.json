@@ -1,7 +1,7 @@
 {
   "name": "dsgvo",
-  "version": "0.1.0",
-  "description": "German data-protection compliance for websites: scan a site, review your Datenschutzerklärung, and check cookie consent against DSGVO, BDSG and TDDDG. Legal citations are pulled live from the dsgvo.pro MCP, so paragraphs are real, not invented.",
+  "version": "0.2.0",
+  "description": "German digital-law compliance for websites: scan a site, review your Datenschutzerklärung, check cookie consent and Impressum, and classify AI systems under the AI Act — grounded in DSGVO, BDSG, TDDDG, DDG and KI-VO. Legal citations are pulled live from the dsgvo.pro MCP, so paragraphs are real, not invented.",
   "author": {
     "name": "shumande",
     "url": "https://shuman.de"

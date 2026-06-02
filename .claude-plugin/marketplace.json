@@ -12,7 +12,7 @@
       "displayName": "DSGVO Compliance",
       "source": "./plugins/dsgvo",
       "category": "legal",
-      "description": "German data-protection compliance for websites: scan a site, review your Datenschutzerklärung, and check your cookie consent against DSGVO, BDSG and TDDDG. Every legal citation is pulled live from the dsgvo.pro MCP — no hallucinated paragraphs.",
+      "description": "German digital-law compliance for websites: scan a site, review your Datenschutzerklärung, check cookie consent and Impressum, and classify AI systems under the AI Act — grounded in DSGVO, BDSG, TDDDG, DDG and KI-VO. Every legal citation is pulled live from the dsgvo.pro MCP — no hallucinated paragraphs.",
       "homepage": "https://shuman.de/stack"
     }
   ]

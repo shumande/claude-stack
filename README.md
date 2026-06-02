@@ -40,11 +40,11 @@ This repo is also a plugin marketplace. The plugins are the European edition of
 Anthropic's [knowledge-work-plugins](https://github.com/anthropics/knowledge-work-plugins)
 idea — German-market workflows, not translations.
 
-- **`dsgvo`** — German data-protection compliance for websites: scan a site,
-  review your Datenschutzerklärung, check cookie consent against DSGVO / BDSG /
-  TDDDG. Every legal citation is pulled live from the
-  [dsgvo.pro](https://dsgvo.pro) MCP, so paragraphs are real, not invented.
-  See [`plugins/dsgvo/`](plugins/dsgvo/).
+- **`dsgvo`** — German digital-law compliance for websites: scan a site, review
+  your Datenschutzerklärung, check cookie consent and Impressum, and classify AI
+  systems under the AI Act — across DSGVO / BDSG / TDDDG / DDG / KI-VO. Every
+  legal citation is pulled live from the [dsgvo.pro](https://dsgvo.pro) MCP, so
+  paragraphs are real, not invented. See [`plugins/dsgvo/`](plugins/dsgvo/).
 
 ```bash
 claude plugin marketplace add shumande/claude-stack
