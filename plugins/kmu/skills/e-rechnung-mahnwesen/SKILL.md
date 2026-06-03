@@ -59,6 +59,27 @@ Kleinunternehmer §19 UStG). For structured formats, confirm the file parses as 
 XRechnung/ZUGFeRD — the authoritative check is the KoSIT validator / Mustangproject
 Schematron (see feasibility doc); do not assert validity from a glance.
 
+## Field extraction (deterministic — for structured invoices)
+
+Do not eyeball amounts and dates out of XML. For an XRechnung/ZUGFeRD CII invoice,
+run the bundled parser to pull the EN 16931 fields and compute Verzug:
+
+```
+python3 plugins/kmu/scripts/parse_einvoice.py <invoice.xml> [--asof YYYY-MM-DD]
+```
+
+It returns JSON: `invoice_number` (BT-1), `issue_date` (BT-2), `due_date` (BT-9),
+`amount_due` (BT-115), `currency`, `seller`, `buyer`, `days_overdue`, `in_verzug`,
+and `missing_required`. Use those exact values in the Mahnung — never re-type them.
+`--asof` fixes the reference date (pass it for reproducible drafts).
+
+Scope today: **CII XML** (XRechnung 3.x / ZUGFeRD CII) parsing is wired and
+smoke-tested. **Still PLAYBOOK / next:** extracting embedded XML from a ZUGFeRD
+**PDF/A-3**, UBL-syntax XRechnung, and authoritative **EN16931 validation** (needs
+the KoSIT validator / Mustangproject — Java; no JRE in this baseline). For those,
+fall back to the operator running KoSIT/Mustang per
+[feasibility-e-rechnung.md](../../docs/feasibility-e-rechnung.md).
+
 ## Mahnwesen — staged sequence (grounded)
 
 Draft, do not send. Default 3-stage escalation, tone set by the relationship:

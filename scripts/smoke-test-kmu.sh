@@ -28,4 +28,20 @@ for f in plugins/kmu/skills/*/SKILL.md; do
   grep -qi 'HUMAN CHECKPOINT' "$f" && echo "ok checkpoint: $f" || { echo "NO human checkpoint: $f"; fail=1; }
 done
 
+# e-invoice parser actually runs on the sample fixture and extracts the right fields
+sample="plugins/kmu/skills/e-rechnung-mahnwesen/examples/sample-xrechnung-cii.xml"
+if out=$(python3 plugins/kmu/scripts/parse_einvoice.py "$sample" --asof 2026-06-03 2>/dev/null); then
+  python3 -c "
+import json,sys
+d=json.loads('''$out''')
+assert d['invoice_number']=='RE-2026-00417', d['invoice_number']
+assert d['due_date']=='2026-04-29', d['due_date']
+assert d['days_overdue']==35, d['days_overdue']
+assert d['in_verzug'] is True
+assert d['missing_required']==[]
+" && echo "ok parser: extracts fields + Verzug=35d" || { echo "BAD parser output"; fail=1; }
+else
+  echo "PARSER FAILED to run"; fail=1
+fi
+
 [ "$fail" -eq 0 ] && echo "ALL PASS" || { echo "FAILURES"; exit 1; }
