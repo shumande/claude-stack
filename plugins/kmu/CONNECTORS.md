@@ -15,10 +15,22 @@ sources directly — never from memory.
 the catalog at all. The dsgvo.pro MCP stays the grounding engine of the separate
 `dsgvo` (compliance) plugin; weave that plugin in only when a DSGVO question arises.
 
-**External tooling (operator-side, not MCP):** Mustangproject + KoSIT validator for
-reading/validating XRechnung/ZUGFeRD (needs a JRE); DATEV-EXTF Buchungsstapel CSV for
-the Steuerberater hand-off. See `docs/feasibility-e-rechnung.md` and
-`docs/feasibility-datev.md`.
+## Bundled tooling (operator-side scripts, not MCP)
+
+| Script | Does | Deps |
+|--------|------|------|
+| `scripts/parse_einvoice.py` | Extract EN16931 fields + Verzug from XRechnung CII/UBL XML or ZUGFeRD PDF | stdlib (XML); pikepdf for PDF |
+| `scripts/gen_extf.py` | Generate DATEV-EXTF Buchungsstapel CSV (byte-verified) | stdlib |
+| `scripts/skr.py` | Categorize a transaction → SKR03/SKR04 account (seed) | stdlib |
+| `scripts/validate_einvoice.py` | Authoritative EN16931/XRechnung validation | Java + Mustang jar |
+
+**One-time setup for the optional bits:**
+- ZUGFeRD-PDF extraction: `python3 -m venv plugins/kmu/scripts/.venv && plugins/kmu/scripts/.venv/bin/pip install -r plugins/kmu/scripts/requirements.txt` (pikepdf).
+- Authoritative validation: `bash scripts/fetch-mustang.sh` (downloads the ~58 MB Mustang CLI jar; needs a JRE — `brew install openjdk`).
+
+The `.venv/` and `vendor/Mustang-CLI.jar` are git-ignored (heavy/local). XML parsing,
+EXTF generation and SKR categorization work with plain `python3`, no extra deps.
+All four are exercised by `scripts/smoke-test-kmu.sh` (PDF + validation gated on deps).
 
 **Human checkpoint:** every skill that produces a client-facing artifact (invoice,
 Mahnung, hand-off pack) MUST present a draft and wait for the operator to approve

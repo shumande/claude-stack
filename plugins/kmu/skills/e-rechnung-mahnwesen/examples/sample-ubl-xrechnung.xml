@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Test fixture: OASIS UBL Invoice-2 (XRechnung UBL syntax). Synthetic data, real
+     structure. Dates are ISO YYYY-MM-DD (unlike CII format-102). Legal party names
+     live in cac:PartyLegalEntity/cbc:RegistrationName (BT-27/BT-44). -->
+<Invoice xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2"
+         xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2"
+         xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2">
+  <cbc:CustomizationID>urn:cen.eu:en16931:2017#compliant#urn:xoev-de:kosit:standard:xrechnung_3.0</cbc:CustomizationID>
+  <cbc:ID>RE-2026-00042</cbc:ID>                              <!-- BT-1 -->
+  <cbc:IssueDate>2026-06-02</cbc:IssueDate>                   <!-- BT-2 -->
+  <cbc:DueDate>2026-06-16</cbc:DueDate>                       <!-- BT-9 -->
+  <cbc:InvoiceTypeCode>380</cbc:InvoiceTypeCode>
+  <cbc:DocumentCurrencyCode>EUR</cbc:DocumentCurrencyCode>    <!-- BT-5 -->
+  <cac:AccountingSupplierParty>
+    <cac:Party>
+      <cac:PartyName><cbc:Name>Muster Service</cbc:Name></cac:PartyName>
+      <cac:PartyLegalEntity>
+        <cbc:RegistrationName>Muster Dienstleistungen GmbH</cbc:RegistrationName> <!-- BT-27 -->
+      </cac:PartyLegalEntity>
+    </cac:Party>
+  </cac:AccountingSupplierParty>
+  <cac:AccountingCustomerParty>
+    <cac:Party>
+      <cac:PartyLegalEntity>
+        <cbc:RegistrationName>Beispiel Bau AG</cbc:RegistrationName>  <!-- BT-44 -->
+      </cac:PartyLegalEntity>
+    </cac:Party>
+  </cac:AccountingCustomerParty>
+  <cac:LegalMonetaryTotal>
+    <cbc:PayableAmount currencyID="EUR">4760.00</cbc:PayableAmount> <!-- BT-115 -->
+  </cac:LegalMonetaryTotal>
+</Invoice>

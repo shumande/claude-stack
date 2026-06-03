@@ -61,24 +61,36 @@ Schematron (see feasibility doc); do not assert validity from a glance.
 
 ## Field extraction (deterministic — for structured invoices)
 
-Do not eyeball amounts and dates out of XML. For an XRechnung/ZUGFeRD CII invoice,
-run the bundled parser to pull the EN 16931 fields and compute Verzug:
+Do not eyeball amounts and dates out of XML. Run the bundled parser — it handles
+**all three carriers** (XRechnung CII XML, XRechnung UBL XML, and ZUGFeRD/Factur-X
+**PDF/A-3** with embedded XML):
 
 ```
+# XML: stdlib only
 python3 plugins/kmu/scripts/parse_einvoice.py <invoice.xml> [--asof YYYY-MM-DD]
+# ZUGFeRD PDF: use the venv (pikepdf); set up once: python3 -m venv scripts/.venv && scripts/.venv/bin/pip install -r scripts/requirements.txt
+plugins/kmu/scripts/.venv/bin/python plugins/kmu/scripts/parse_einvoice.py <invoice.pdf>
 ```
 
-It returns JSON: `invoice_number` (BT-1), `issue_date` (BT-2), `due_date` (BT-9),
-`amount_due` (BT-115), `currency`, `seller`, `buyer`, `days_overdue`, `in_verzug`,
-and `missing_required`. Use those exact values in the Mahnung — never re-type them.
-`--asof` fixes the reference date (pass it for reproducible drafts).
+Returns JSON: `syntax` (CII/UBL), `invoice_number` (BT-1), `issue_date` (BT-2),
+`due_date` (BT-9), `amount_due` (BT-115), `currency`, `seller`, `buyer`,
+`days_overdue`, `in_verzug`, `missing_required`. Use those exact values in the
+Mahnung — never re-type them. If `due_date` is in `missing_required`, the invoice
+carries no BT-9; ask the operator for the agreed Zahlungsziel before computing Verzug.
 
-Scope today: **CII XML** (XRechnung 3.x / ZUGFeRD CII) parsing is wired and
-smoke-tested. **Still PLAYBOOK / next:** extracting embedded XML from a ZUGFeRD
-**PDF/A-3**, UBL-syntax XRechnung, and authoritative **EN16931 validation** (needs
-the KoSIT validator / Mustangproject — Java; no JRE in this baseline). For those,
-fall back to the operator running KoSIT/Mustang per
-[feasibility-e-rechnung.md](../../docs/feasibility-e-rechnung.md).
+## Validation (authoritative, optional)
+
+For a real EN16931 / XRechnung conformance check (not just parsing), run the
+Mustangproject validator. It needs Java + the Mustang jar (one-time
+`bash scripts/fetch-mustang.sh`):
+
+```
+python3 plugins/kmu/scripts/validate_einvoice.py <invoice.pdf|.xml>
+```
+
+Returns `{status: valid|invalid, errors:[...]}`, exit 0 when valid. Use this before
+treating an OUTGOING invoice as compliant. If Java/jar are absent it returns
+`status: unavailable` — then note the validation was skipped (do not claim valid).
 
 ## Mahnwesen — staged sequence (grounded)
 

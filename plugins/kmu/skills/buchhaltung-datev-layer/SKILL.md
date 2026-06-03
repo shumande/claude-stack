@@ -28,21 +28,27 @@ transactions", "Monatsabschluss vorbereiten", "clean up the books".
 2. **Context** — Kleinunternehmer §19 or USt-pflichtig? Which import format does the
    Steuerberater expect (DATEV-EXTF Buchungsstapel is the default)?
 
-## What it does (TURNKEY per feasibility-datev.md)
+## What it does (TURNKEY — wired scripts)
 
 - Extract + normalize each transaction (Datum, Betrag, USt, Gegenkonto-Vorschlag).
-- Categorize against the SKR03/SKR04 chart (both are publicly documented by DATEV);
-  mark low-confidence rows for review.
-- Flag gaps: missing receipts, uncategorizable items, USt inconsistencies, possible
-  duplicates.
-- Produce a **DATEV-EXTF / Buchungsstapel** export the Steuerberater can import via
-  DATEV Stapelverarbeitung, plus a plain-German open-items + missing-receipts list for
-  the owner.
+- **Categorize** to SKR03/SKR04 with the seed mapping:
+  `python3 plugins/kmu/scripts/skr.py "<Buchungstext>" --chart skr03|skr04` → returns
+  the suggested account; `confident:false` means no keyword matched → ask the operator.
+  Mark `verify:true` rows (e.g. SKR04 6310 Miete) for the operator to confirm.
+- Flag gaps: missing receipts, uncategorizable items, USt inconsistencies, duplicates.
+- **Produce the DATEV-EXTF Buchungsstapel** the Steuerberater imports via DATEV
+  Stapelverarbeitung:
+  `python3 plugins/kmu/scripts/gen_extf.py --bookings bookings.json -o Stapel.csv`
+  where `bookings.json` is a list of `{umsatz, soll_haben, konto, gegenkonto,
+  bu_schluessel, belegdatum, belegfeld1, buchungstext}`. The generator is **byte-verified**
+  against the ledermann/datev reference and DATEV Dok.-Nr. 1003221 (31-field header,
+  125-field rows, Windows-1252, CRLF, `;`, comma-decimals, DDMM Belegdatum) — see
+  [feasibility-datev.md](../../docs/feasibility-datev.md).
 
-> **Pre-build gate (operator note):** the exact EXTF field layout (header order,
-> Win-1252 encoding, `;` delimiter, version "700"/5.10, date masks) must be validated
-> against the canonical DATEV spec / free DATEV test program before any generated file
-> is sent — the spec page is JS-gated. Do not assume a byte-exact layout from memory.
+> **Operator confirms before import:** the SKR seed is a starter chart (~20 categories;
+> SKR04 6310 not fully verified) and the EXTF header metadata (Berater/Mandant/WJ) must
+> be the client's real numbers. Generate the draft, let the operator/Steuerberater
+> confirm accounts and metadata, then import. Never auto-book.
 
 ## What it does NOT do (state this every run)
 

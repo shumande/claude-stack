@@ -42,3 +42,22 @@ declaring the skill done.** Do not trust any second-hand field summary as byte-e
 (programmatic DATEV write-back) is exactly what the design already excludes. One
 pre-build gate: verify the EXTF field layout against the canonical spec / DATEV test
 program before marking the skill done.
+
+## IMPLEMENTED 2026-06-03 (pre-build gate cleared)
+
+The EXTF layout was nailed down by an adversarial verification workflow against TWO
+independent sources — the ledermann/datev gem (cloned, **ran it**, byte-identical
+output) and DATEV's official ASCII-Dateibeschreibung **Dok.-Nr. 1003221**. A 3-vote
+adversarial pass caught one real defect (a truncated 113-field reference row; correct
+is **125**) and confirmed the rest.
+
+- `scripts/gen_extf.py` — emits the 3-section file (31-field header, 125-field
+  column-name row, 125-field data rows), Windows-1252 (no BOM), CRLF, `;`, comma
+  decimals (unsigned, S/H direction), DDMM Belegdatum, Konto zero-padded. Its demo
+  row is **byte-identical** to the ledermann reference (verified in smoke test).
+- `scripts/skr.py` — SKR03/SKR04 seed (~20 categories). ⚠ SKR04 6310 (Miete) flagged
+  `verify=True` — confirm against the SKR04 PDF before relying on it.
+- Formatversion **13** matches the emitted 125-column layout (ledermann); "12" exists
+  on the DATEV portal for the same layout — both accepted as long as the column count
+  matches the declared version. Tail column NAMES (cols 88–125) are best-effort labels;
+  DATEV import is positional, so the count (125) is what is load-bearing, not the labels.

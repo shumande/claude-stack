@@ -69,3 +69,15 @@ Source: https://www.bundesfinanzministerium.de/Content/DE/FAQ/e-rechnung.html
 **GO** for Mahnwesen + incoming-parse + validation (turnkey, free Apache tooling).
 Outgoing generation = PLAYBOOK ("validate/wrap exported invoice"). Structural caveat:
 JRE dependency for authoritative validation — acceptable for a back-office operator tool.
+
+## IMPLEMENTED 2026-06-03
+
+- `scripts/parse_einvoice.py` — parses **CII + UBL XML + ZUGFeRD/Factur-X PDF** (embedded
+  XML via pikepdf), extracts BT-1/2/9/115 + parties, computes Verzug. Tested on real
+  fixtures incl. the mustangproject `EN16931_Einfach.pdf` (extracted invoice 471102,
+  €529.87; correctly flagged the missing BT-9). UBL legal names via PartyLegalEntity/
+  RegistrationName (not PartyName/Name).
+- `scripts/validate_einvoice.py` + `scripts/fetch-mustang.sh` — authoritative EN16931/
+  XRechnung validation via Mustang CLI (Java); ran `status=valid` on the sample.
+- All covered by `scripts/smoke-test-kmu.sh` (PDF + validation gated on deps).
+- Outgoing-generation stays PLAYBOOK by design (client's billing tool).
