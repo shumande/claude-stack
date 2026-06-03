@@ -41,6 +41,11 @@ jobs:
           # stdio servers will fail without env vars — acceptable in CI without secrets
           bash scripts/smoke-test.sh || true
 
+      - name: Run kmu plugin smoke-test (stdlib; PDF + validation auto-skip without venv/jar)
+        run: |
+          chmod +x scripts/smoke-test-kmu.sh
+          bash scripts/smoke-test-kmu.sh
+
       - name: Verify scripts are executable
         run: |
           test -x scripts/smoke-test.sh
