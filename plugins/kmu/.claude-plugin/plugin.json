@@ -1,0 +1,10 @@
+{
+  "name": "kmu",
+  "version": "0.1.0",
+  "description": "Operator toolkit for a DSGVO-konform AI-Mitarbeiter for the German Mittelstand: E-Rechnung & Mahnwesen (§286 BGB) and Buchhaltung hand-off for the Steuerberater. Legal anchors cited from official sources (gesetze-im-internet.de, BMF); client-facing outputs pause for human approval.",
+  "author": {
+    "name": "shumande",
+    "url": "https://ai-firma.de"
+  },
+  "homepage": "https://ai-firma.de"
+}

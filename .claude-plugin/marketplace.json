@@ -14,6 +14,14 @@
       "category": "legal",
       "description": "German digital-law compliance for websites: scan a site, review your Datenschutzerklärung, check cookie consent and Impressum, and classify AI systems under the AI Act — grounded in DSGVO, BDSG, TDDDG, DDG and KI-VO. Every legal citation is pulled live from the dsgvo.pro MCP — no hallucinated paragraphs.",
       "homepage": "https://shuman.de/stack"
+    },
+    {
+      "name": "kmu",
+      "displayName": "KMU AI-Mitarbeiter",
+      "source": "./plugins/kmu",
+      "category": "business",
+      "description": "Operator toolkit for a DSGVO-konform 'AI-Mitarbeiter' for the German Mittelstand: handle incoming/outgoing E-Rechnung and Mahnwesen (§286 BGB), and prepare clean Buchhaltung hand-off for the Steuerberater. Built for B2B-Dienstleister owners. Legal anchors cited from official sources (gesetze-im-internet.de, BMF); every client-facing output pauses for human approval.",
+      "homepage": "https://ai-firma.de"
     }
   ]
 }
