@@ -1,6 +1,6 @@
 ---
 name: e-rechnung-mahnwesen
-description: Handle a German company's invoicing flow — read an incoming E-Rechnung (XRechnung/ZUGFeRD), check outgoing invoices for Pflichtangaben, and draft a staged, legally-grounded Mahnwesen for overdue invoices under §286 BGB. Use when someone asks to process an invoice, chase an overdue payment, set up dunning, or check an invoice for completeness. Legal anchors are cited from official sources (gesetze-im-internet.de for §286/§288 BGB, BMF for the §14 UStG E-Rechnung obligation) — not from memory. Every client-facing draft pauses for human approval.
+description: Handle a German company's invoicing flow — read an incoming E-Rechnung (XRechnung/ZUGFeRD), check outgoing invoices for Pflichtangaben, and draft a staged, legally-grounded Mahnwesen for overdue invoices under §286 BGB. Use when someone asks to process an invoice, chase an overdue payment, set up dunning, or check an invoice for completeness. Legal anchors are cited from official sources (gesetze-im-internet.de for §286/§288 BGB, BMF for the §14 UStG E-Rechnung obligation) — not from memory. Every client-facing draft is presented to the operator for approval before it is treated as sent.
 argument-hint: "<invoice file/text or 'overdue: <details>'>"
 ---
 
@@ -58,6 +58,10 @@ applicable USt-Satz/-Betrag (or Hinweis on Steuerbefreiung / Reverse-Charge /
 Kleinunternehmer §19 UStG). For structured formats, confirm the file parses as valid
 XRechnung/ZUGFeRD — the authoritative check is the KoSIT validator / Mustangproject
 Schematron (see feasibility doc); do not assert validity from a glance.
+
+> For a **pasted / plain-text** invoice this check is AI-assisted — treat it as a
+> prompt, not a formal audit; it may miss items. For binding compliance, get the
+> issuer's structured XML and run `validate_einvoice.py`.
 
 ## Field extraction (deterministic — for structured invoices)
 

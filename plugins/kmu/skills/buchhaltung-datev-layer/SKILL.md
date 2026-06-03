@@ -28,9 +28,16 @@ transactions", "Monatsabschluss vorbereiten", "clean up the books".
 2. **Context** — Kleinunternehmer §19 or USt-pflichtig? Which import format does the
    Steuerberater expect (DATEV-EXTF Buchungsstapel is the default)?
 
-## What it does (TURNKEY — wired scripts)
+## What it does
 
-- Extract + normalize each transaction (Datum, Betrag, USt, Gegenkonto-Vorschlag).
+Two tiers — keep them honest:
+
+**AI-assisted (read the output critically — no deterministic script):**
+- Ingest the inputs: read receipts (photo/PDF — there is **no OCR script**, the agent
+  reads them) and the bank export (CSV / CAMT.053), and normalize each transaction
+  (Datum, Betrag, USt, Gegenkonto-Vorschlag). Treat these extractions as drafts.
+
+**Deterministic (scripted, verified):**
 - **Categorize** to SKR03/SKR04 with the seed mapping:
   `python3 plugins/kmu/scripts/skr.py "<Buchungstext>" --chart skr03|skr04` → returns
   the suggested account; `confident:false` means no keyword matched → ask the operator.

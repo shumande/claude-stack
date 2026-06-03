@@ -30,6 +30,8 @@ CII = {
     "udt": "urn:un:unece:uncefact:data:standard:UnqualifiedDataType:100",
 }
 UBL = {
+    # 'inv' = the default Invoice-2 namespace; kept for documentation. find() paths
+    # below are relative to the <Invoice> root so they use cbc:/cac: only.
     "inv": "urn:oasis:names:specification:ubl:schema:xsd:Invoice-2",
     "cbc": "urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2",
     "cac": "urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2",
@@ -51,6 +53,20 @@ def _date102(raw):
     return f"{raw[0:4]}-{raw[4:6]}-{raw[6:8]}"
 
 
+def _cii_date(root, path):
+    """Read a CII DateTimeString, verifying the format code is 102 (CCYYMMDD).
+
+    Raises on an unsupported format code rather than silently returning None.
+    """
+    el = root.find(path, CII)
+    if el is None or not (el.text and el.text.strip()):
+        return None
+    fmt = el.get("format")
+    if fmt is not None and fmt != "102":
+        raise ValueError(f"Unsupported CII date format '{fmt}' at {path} (only 102/CCYYMMDD handled)")
+    return _date102(el.text.strip())
+
+
 def parse_cii(root):
     tx = "rsm:SupplyChainTradeTransaction/"
     settle = tx + "ram:ApplicableHeaderTradeSettlement/"
@@ -58,8 +74,8 @@ def parse_cii(root):
     return {
         "syntax": "CII",
         "invoice_number": _text(root, "rsm:ExchangedDocument/ram:ID", CII),
-        "issue_date": _date102(_text(root, "rsm:ExchangedDocument/ram:IssueDateTime/udt:DateTimeString", CII)),
-        "due_date": _date102(_text(root, settle + "ram:SpecifiedTradePaymentTerms/ram:DueDateDateTime/udt:DateTimeString", CII)),
+        "issue_date": _cii_date(root, "rsm:ExchangedDocument/ram:IssueDateTime/udt:DateTimeString"),
+        "due_date": _cii_date(root, settle + "ram:SpecifiedTradePaymentTerms/ram:DueDateDateTime/udt:DateTimeString"),
         "amount_due": _text(root, settle + "ram:SpecifiedTradeSettlementHeaderMonetarySummation/ram:DuePayableAmount", CII),
         "currency": _text(root, settle + "ram:InvoiceCurrencyCode", CII),
         "seller": _text(root, agree + "ram:SellerTradeParty/ram:Name", CII),
@@ -68,11 +84,20 @@ def parse_cii(root):
 
 
 def parse_ubl(root):
-    # BT-9: invoice-level cbc:DueDate first, fallback cac:PaymentMeans/cbc:PaymentDueDate
-    due = _text(root, "cbc:DueDate", UBL) or _text(root, "cac:PaymentMeans/cbc:PaymentDueDate", UBL)
+    # BT-9: invoice-level cbc:DueDate first, fallback cac:PaymentMeans/cbc:PaymentDueDate.
+    # ISO dates sort lexically, so max() picks the latest if several PaymentMeans exist.
+    due = _text(root, "cbc:DueDate", UBL)
+    multiple_pm = False
+    if not due:
+        dues = [e.text.strip() for e in root.findall("cac:PaymentMeans/cbc:PaymentDueDate", UBL)
+                if e.text and e.text.strip()]
+        if dues:
+            due = max(dues)
+            multiple_pm = len(dues) > 1
     # BT-27/44: legal name is PartyLegalEntity/RegistrationName (NOT PartyName/Name)
     return {
         "syntax": "UBL",
+        "multiple_payment_means": multiple_pm,
         "invoice_number": _text(root, "cbc:ID", UBL),
         "issue_date": _text(root, "cbc:IssueDate", UBL),           # already ISO
         "due_date": due,
@@ -92,6 +117,13 @@ def _embedded_xml_from_pdf(pdf_path):
     except ImportError:
         sys.exit("PDF input needs pikepdf — run with the venv: "
                  "plugins/kmu/scripts/.venv/bin/python (pip install pikepdf)")
+    try:
+        return _walk_pdf(pikepdf, pdf_path)
+    except pikepdf.PdfError as e:
+        raise ValueError(f"Could not read PDF {pdf_path}: {e}")
+
+
+def _walk_pdf(pikepdf, pdf_path):
     with pikepdf.open(pdf_path) as pdf:
         att = pdf.attachments
         lower = {k.lower(): k for k in att.keys()}

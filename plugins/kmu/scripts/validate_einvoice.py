@@ -44,12 +44,18 @@ def validate(path):
     if not os.path.exists(JAR):
         return {"status": "unavailable",
                 "reason": f"Mustang jar missing — run scripts/fetch-mustang.sh ({JAR})"}, 3
-    proc = subprocess.run(
-        [java, "-jar", JAR, "--action", "validate", "--source", path, "--disable-file-logging"],
-        capture_output=True, text=True,
-    )
+    try:
+        proc = subprocess.run(
+            [java, "-jar", JAR, "--action", "validate", "--source", path, "--disable-file-logging"],
+            capture_output=True, text=True, timeout=120,
+        )
+    except subprocess.TimeoutExpired:
+        return {"status": "error", "reason": "Mustang validation timed out (120s)"}, 2
     # The structured XML report is on stdout; INFO logs go to stderr.
     report = proc.stdout
+    if "<validation" not in report:
+        return {"status": "error", "reason": f"Mustang produced no report (exit {proc.returncode})",
+                "stderr_tail": (proc.stderr or "")[-300:]}, 2
     out = {"status": "unknown", "profile": None, "parsed_pdf": None,
            "xml_valid": None, "errors": []}
     try:

@@ -10,18 +10,22 @@ the SKR04 PDF before relying on it.
 This is a SEED, not a complete chart. It exists to draft a Gegenkonto suggestion that
 the operator (and ultimately the Steuerberater) confirms — never to auto-book.
 """
+import re
 import json
 import sys
 import argparse
 
 # (label, skr03, skr04, keyword, verify_flag)
+# ORDER MATTERS: first match wins, so more-specific (multi-word) keywords must precede
+# the single-word keyword they are a superset of (e.g. Reisekosten Unternehmer before
+# the generic Reisekosten).
 SEED = [
     ("Erlöse 19% USt",                      "8400", "4400", "erlös",            False),
     ("Bürobedarf",                          "4930", "6815", "bürobedarf",       False),
     ("Telefon/Telekommunikation",           "4920", "6805", "telefon",          False),
     ("Raumkosten/Miete",                    "4200", "6310", "miete",            True),  # SKR04 6310 unverified
+    ("Reisekosten Unternehmer",             "4670", "6670", "reisekosten unternehmer", False),
     ("Reisekosten Arbeitnehmer",            "4660", "6650", "reisekosten",      False),
-    ("Reisekosten Unternehmer",             "4670", "6670", "reise unternehmer", False),
     ("Bewirtungskosten",                    "4650", "6640", "bewirtung",        False),
     ("Fremdleistungen",                     "3100", "5900", "fremdleistung",    False),
     ("Werbekosten",                         "4600", "6600", "werbung",          False),
@@ -48,8 +52,12 @@ def categorize(text, chart="skr03"):
     """
     idx = 1 if chart.lower() == "skr03" else 2
     t = (text or "").lower()
+    # Match each keyword word at a word START (\b before), free suffix after — so German
+    # inflections (Bankgebühren, Reisekosten) match, but mid-word false positives don't.
+    def has(word):
+        return re.search(r"\b" + re.escape(word), t) is not None
     for label, a03, a04, kw, verify in SEED:
-        if all(w in t for w in kw.split()):
+        if all(has(w) for w in kw.split()):
             return {"account": (a03 if idx == 1 else a04), "label": label,
                     "keyword": kw, "verify": verify, "confident": True}
     return {"account": None, "label": None, "keyword": None, "verify": False,
