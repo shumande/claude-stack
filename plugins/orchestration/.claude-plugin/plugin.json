@@ -1,0 +1,10 @@
+{
+  "name": "orchestration",
+  "version": "0.1.0",
+  "description": "Heterogeneous multi-LLM orchestration. agent-council fans one artifact across Claude, GPT, Gemini, Kimi and GLM, each returns a compact verdict JSON over a tight machine protocol, then Claude synthesizes the final — a conveyor + mini-council that rides subscriptions where possible and only surfaces the synthesized result. Researched from band.ai, rebuilt locally without a hub.",
+  "author": {
+    "name": "shumande",
+    "url": "https://shuman.de"
+  },
+  "homepage": "https://shuman.de/stack"
+}
