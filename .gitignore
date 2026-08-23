@@ -36,3 +36,6 @@ Thumbs.db
 # KMU plugin local tooling (not committed)
 plugins/kmu/scripts/vendor/
 plugins/kmu/scripts/.venv/
+
+# Чужой референс-стартер — отдельный репозиторий, claude-stack его не трекает
+reference/
