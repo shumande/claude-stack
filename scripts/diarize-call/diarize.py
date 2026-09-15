@@ -10,12 +10,15 @@ import os
 import json
 import subprocess
 
+from hf_token import load_hf_token, KEY_FILE
+
 def main():
     audio_path = sys.argv[1]
-    hf_token = os.environ.get("HF_TOKEN")
+    hf_token = load_hf_token()
     if not hf_token:
-        print("Set HF_TOKEN env var (huggingface.co/settings/tokens, "
-              "after accepting pyannote/speaker-diarization-community-1 terms)", file=sys.stderr)
+        print(f"Нет токена HuggingFace: положи его в {KEY_FILE} (chmod 600) "
+              "или задай HF_TOKEN=hf_xxx в окружении. Токен — huggingface.co/settings/tokens, "
+              "после accept на pyannote/speaker-diarization-community-1.", file=sys.stderr)
         sys.exit(1)
 
     # Convert to 16kHz mono wav — avoids torchcodec/m4a decoding issues, standard for diarization.
