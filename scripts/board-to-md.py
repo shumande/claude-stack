@@ -5,6 +5,9 @@ src, out = sys.argv[1], sys.argv[2]
 d = json.load(open(src))
 L = ["# Доска ПУЛЬТ (выжимка для памяти)", "", f"Обновлено: {d.get('updated')}. Источник: plans/founder-board.json (истина по деньгам и цели месяца; карточки клиентов могут отставать).", ""]
 m = d["month"]
+goal_line = m["note"].split(".")[0]
+L.insert(2, f"ЦЕЛЬ МЕСЯЦА ({m['label']}): {goal_line}.")
+L.insert(3, "")
 L += [f"## Месяц: {m['label']}", "", m["note"], ""]
 for g in m.get("goals", []):
     L.append(f"- Цель: {g['name']} — факт {g.get('fact')} из {g.get('target')}" + (f", срок {g['due']}" if g.get("due") else "") + (" (€ нетто)" if g.get("eur") else ""))
